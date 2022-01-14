@@ -1,0 +1,17 @@
+graph "quanguru" {
+graph [ dpi=300 ];
+rankdir=TB
+charset="utf-8"
+
+"QuanGuru" [color="black", fontcolor="black", label="QuanGuru", shape="box", style="filled", fillcolor="#f0ffff"];
+"QuantumToolbox" [color="black", fontcolor="black", label="QuantumToolbox", shape="box", style="filled", fillcolor="#f0ffff"];
+"classes" [color="black", fontcolor="black", label="         classes         ", shape="box", style="filled", fillcolor="#f0ffff"];
+
+
+
+// Inheriting from base.py
+"QuanGuru" -- "QuantumToolbox" [arrowhead="none", arrowtail="none"];
+"QuanGuru" -- "classes" [arrowhead="none", arrowtail="none"];
+
+
+}

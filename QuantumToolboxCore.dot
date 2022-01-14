@@ -1,0 +1,30 @@
+digraph "packages_quanguru" {
+graph [ dpi=300 ];
+rankdir=BT
+charset="utf-8"
+
+/*
+ * Import structure of QuantumToolbox modules, arrowhead points to the imported module from the one importing it.
+ * QuantumToolbox does not import from classes.
+ */
+
+// modules are represented as the nodes of the graph, and the node colour is just my classification
+
+// core modules (with node colour chartreuse)
+
+"linearAlgebra" [color="black", label="linearAlgebra", shape="box", style="filled", fillcolor=chartreuse];
+"operators" [color="black", label="operators", shape="box", style="filled", fillcolor=chartreuse];
+"states" [color="black", label="states", shape="box", style="filled", fillcolor=chartreuse];
+"functions" [color="black", label="functions", shape="box", style="filled", fillcolor=chartreuse];
+"evolution" [color="black", label="evolution", shape="box", style="filled", fillcolor=chartreuse];
+
+// graph edges
+"evolution" -> "functions" [arrowhead="open", arrowtail="none"];
+"evolution" -> "linearAlgebra" [arrowhead="open", arrowtail="none"];
+"evolution" -> "states" [arrowhead="open", arrowtail="none"];
+"functions" -> "linearAlgebra" [arrowhead="open", arrowtail="none"];
+"functions" -> "operators" [arrowhead="open", arrowtail="none"];
+"functions" -> "states" [arrowhead="open", arrowtail="none"];
+"operators" -> "linearAlgebra" [arrowhead="open", arrowtail="none"];
+"states" -> "linearAlgebra" [arrowhead="open", arrowtail="none"];
+}

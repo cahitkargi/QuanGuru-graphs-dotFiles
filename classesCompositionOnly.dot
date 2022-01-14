@@ -1,0 +1,144 @@
+digraph "classes_quanguru" {
+graph [ dpi=300 ];
+rankdir=BT
+charset="utf-8"
+
+/* 
+ * all the classes: gathered with other classes in the same module and (mostly) arranged in the order they appear in the 
+ * module (expect when I switched the order to adjust the .png), this arrangement shows where they are in the inheritance
+ * or where they become part of composition in the inheritance.
+ * The modules are arranged: - first from the top of the inheritance, - then what I think is a more fundamental module.
+ * 
+ * nodes in each module are shown with the same color. Note that I treat QGates as part of QPro
+ */
+
+// base.py
+"classes.base.aliasClass" [color="black", fontcolor="black", label="aliasClass", shape="box", style="filled", fillcolor="#f0ffff"];
+"classes.base.aliasDict" [color="black", fontcolor="black", label="aliasDict", shape="box", style="filled", fillcolor="#f0ffff"];
+"classes.base.named" [color="black", fontcolor="black", label="named", shape="box", style="filled", fillcolor="#f0ffff"];
+"classes.base._auxiliaryClass" [color="black", fontcolor="black", label="_auxiliaryClass", shape="box", style="filled", fillcolor="#f0ffff"];
+"classes.base.qBase" [color="black", fontcolor="black", label="qBase", shape="box", style="filled", fillcolor="#f0ffff"];
+
+// baseClasses.py
+"classes.baseClasses._parameter" [color="black", fontcolor="black", label="_parameter", shape="box", style="filled", fillcolor="#f5f5dc"];
+"classes.baseClasses.paramBoundBase" [color="black", fontcolor="black", label="paramBoundBase", shape="box", style="filled", fillcolor="#f5f5dc"];
+"classes.baseClasses.computeBase" [color="black", fontcolor="black", label="computeBase", shape="box", style="filled", fillcolor="#f5f5dc"];
+"classes.baseClasses.qBaseSim" [color="black", fontcolor="black", label="qBaseSim", shape="box", style="filled", fillcolor="#f5f5dc"];
+"classes.baseClasses.stateBase" [color="black", fontcolor="black", label="stateBase", shape="box", style="filled", fillcolor="#f5f5dc"];
+"classes.baseClasses.timeBase" [color="black", fontcolor="black", label="timeBase", shape="box", style="filled", fillcolor="#f5f5dc"];
+
+// QSys.py
+"classes.QSys.genericQSys" [color="black", fontcolor="black", label="genericQSys", shape="box", style="filled", fillcolor="#cbeaf5"];
+"classes.QSys.QuantumSystem" [color="black", fontcolor="black", label="QuantumSystem", shape="box", style="filled", fillcolor="#cbeaf5"];
+"classes.QSys.compQSystem" [color="black", fontcolor="black", label="compQSystem", shape="box", style="filled", fillcolor="#cbeaf5"];
+"classes.QSys.term" [color="black", fontcolor="black", label="term", shape="box", style="filled", fillcolor="#cbeaf5"];
+"classes.QSys.qSystem" [color="black", fontcolor="black", label="qSystem", shape="box", style="filled", fillcolor="#cbeaf5"];
+
+// QSim.py
+"classes.QSim.Simulation" [color="black", fontcolor="black", label="Simulation", shape="box", style="filled", fillcolor="#ffc7c7"];
+
+// QPro.py (and QGates)
+"classes.QPro.genericProtocol" [color="black", fontcolor="black", label="genericProtocol", shape="box", style="filled", fillcolor="#e5ffe3"];
+"classes.QPro.freeEvolution" [color="black", fontcolor="black", label="freeEvolution", shape="box", style="filled", fillcolor="#e5ffe3"];
+
+// QSweep.py
+"classes.QSweep._sweep" [color="black", fontcolor="black", label="_sweep", shape="box", style="filled", fillcolor="#fffaad"];
+"classes.QSweep.Sweep" [color="black", fontcolor="black", label="Sweep", shape="box", style="filled", fillcolor="#fffaad"];
+
+// QRes.py
+"classes.QRes.qResults" [color="black", fontcolor="black", label="qResults", shape="box", style="filled", fillcolor="#fdb3ff"];
+
+// environment.py
+"classes.environment.dissipatorObj" [color="black", fontcolor="black", label="dissipatorObj", shape="box", style="filled", fillcolor=darkorchid1];
+"classes.environment.thermalBath" [color="black", fontcolor="black", label="thermalBath", shape="box", style="filled", fillcolor=darkorchid1];
+
+
+/*
+ * Composition structure
+ * I divide the compositions into two:
+ * 1) direct: meaning some attribute is an instance of the other class, and an instance is created and assigned 
+ * internally at the instantiation. One exception to this is that, qSystem stores its terms in subSys dict
+ * (which it self is a aliasDict) but it always instantiate a single term in the subSys, so I consider this as direct. 
+ * 2) indirect: meaning an attribute is a list/dictionary that is meant to contain instances of our classes
+ * (e.g. subSys dict, updates list), or it is meant to point to an instance of our classes but not created&assigned
+ * internally at the instantiation (they are assigned either internally later or by the user, e.g. superSys attribute).
+ * One final indirect composition is when an instance of a class is created for temp use for internal functionality,
+ * these generally have a very minimal scope and always for internal use only.
+ * 
+ * so, the below part is separated into direct and indirect compositions,
+ * then they are arranged: - first from the top of the inheritance, - then what I think is a more fundamental module.
+ * 
+ * Note that the labels below are mostly the name of the property through which the actual name mangled attribute is
+ * accessed.
+ */
+
+
+// direct compositions
+
+// in base.py 
+"classes.base.aliasClass" -> "classes.base.named" [arrowhead="odiamond", color="orange", arrowtail="none", label="name", fontsize=10, fontcolor=orange];
+"classes.base.aliasDict" -> "classes.base.named" [arrowhead="odiamond", color="orange", arrowtail="none", label="_allInstacesDict", fontsize=10, fontcolor=orange];
+"classes.base.aliasDict" -> "classes.base.qBase" [arrowhead="odiamond", color="orange", arrowtail="none", label="subSys", fontsize=10, fontcolor=orange];
+"classes.base._auxiliaryClass" -> "classes.base.qBase" [arrowhead="odiamond", color="orange", arrowtail="none", label="auxObj", fontsize=10, fontcolor=orange];
+
+// in baseClasses.py
+"classes.baseClasses._parameter" -> "classes.baseClasses.stateBase" [arrowhead="odiamond", color="orange", arrowtail="none", label="initialState", fontsize=10, fontcolor=orange];
+"classes.baseClasses._parameter" -> "classes.baseClasses.stateBase" [arrowhead="odiamond", color="orange", arrowtail="none", label="initialStateInput", fontsize=10, fontcolor=orange];
+"classes.baseClasses._parameter" -> "classes.baseClasses.stateBase" [arrowhead="odiamond", color="orange", arrowtail="none", label="delStates", fontsize=10, fontcolor=orange];
+"classes.baseClasses._parameter" -> "classes.baseClasses.timeBase" [arrowhead="odiamond", color="orange", arrowtail="none", label="totalTime", fontsize=10, fontcolor=orange];
+"classes.baseClasses._parameter" -> "classes.baseClasses.timeBase" [arrowhead="odiamond", color="orange", arrowtail="none", label="stepSize", fontsize=10, fontcolor=orange];
+"classes.baseClasses._parameter" -> "classes.baseClasses.timeBase" [arrowhead="odiamond", color="orange", arrowtail="none", label="stepCount", fontsize=10, fontcolor=orange];
+"classes.baseClasses._parameter" -> "classes.baseClasses.timeBase" [arrowhead="odiamond", color="orange", arrowtail="none", label="samples", fontsize=10, fontcolor=orange];
+"classes.QSim.Simulation" -> "classes.baseClasses.qBaseSim" [arrowhead="odiamond", color="orange", arrowtail="none", label="simulation", fontsize=10, fontcolor=orange];
+"classes.baseClasses.qBaseSim" -> "classes.QSim.Simulation" [arrowhead="odiamond", color="orange:red", arrowtail="none", label="superSys", fontsize=10, fontcolor=orange];
+"classes.baseClasses.qBaseSim" -> "classes.QSim.Simulation" [arrowhead="odiamond", color="orange:red", arrowtail="none", label="_paramBound", fontsize=10, fontcolor=orange];
+"classes.QRes.qResults" -> "classes.baseClasses.computeBase" [arrowhead="odiamond", color="orange", arrowtail="none", label="qRes", fontsize=10, fontcolor=orange];
+"classes.baseClasses.computeBase" -> "classes.QRes.qResults" [arrowhead="odiamond", color="orange:red", arrowtail="none", label="superSys", fontsize=10, fontcolor=orange];
+"classes.base.aliasDict" -> "classes.baseClasses.paramBoundBase" [arrowhead="odiamond", color="orange", arrowtail="none", label="_paramBound", fontsize=10, fontcolor=orange];
+
+// in QSys.py
+"classes.QPro.freeEvolution" -> "classes.QSys.genericQSys" [arrowhead="odiamond", color="orange", arrowtail="none", label="_freeEvol", fontsize=10, fontcolor=orange];
+"classes.QPro.freeEvolution" -> "classes.QSys.genericQSys" [arrowhead="odiamond", color="orange:red", arrowtail="none", label="_paramBound", fontsize=10, fontcolor=orange];
+"classes.QSys.genericQSys" -> "classes.QPro.freeEvolution" [arrowhead="odiamond", color="orange", arrowtail="none", label="superSys", fontsize=10, fontcolor=orange];
+"classes.QSys.term" -> "classes.QSys.qSystem" [arrowhead="odiamond", color="orange:red", arrowtail="none", label="subSys", fontsize=10, fontcolor="orange"];
+"classes.QSys.term" -> "classes.QSys.qSystem" [arrowhead="odiamond", color="orange:red", arrowtail="none", label="_paramBound", fontsize=10, fontcolor=orange];
+"classes.QSys.qSystem" -> "classes.QSys.term" [arrowhead="odiamond", color="orange:red", arrowtail="none", label="superSys", fontsize=10, fontcolor="orange"];
+
+// in QSim.py
+"classes.QSweep.Sweep" -> "classes.QSim.Simulation" [arrowhead="odiamond", color="orange", arrowtail="none", label="timeDependency", fontsize=10, fontcolor=orange];
+"classes.QSweep.Sweep" -> "classes.QSim.Simulation" [arrowhead="odiamond", color="orange", arrowtail="none", label="Sweep", fontsize=10, fontcolor=orange];
+"classes.QSim.Simulation" -> "classes.QSweep.Sweep" [arrowhead="odiamond", color="orange:red", arrowtail="none", label="superSys", fontsize=10, fontcolor=orange];
+
+// in QPro.py
+"classes.QSweep.Sweep" -> "classes.QPro.genericProtocol" [arrowhead="odiamond", color="orange", arrowtail="none", label="timeDependency", fontsize=10, fontcolor=orange];
+"classes.QPro.genericProtocol" -> "classes.QSweep.Sweep" [arrowhead="odiamond", color="orange:red", arrowtail="none", label="superSys", fontsize=10, fontcolor=orange];
+"classes.baseClasses._parameter" -> "classes.QPro.genericProtocol" [arrowhead="odiamond", color="orange", arrowtail="none", label="currentState", fontsize=10, fontcolor=orange];
+
+// compositions in QRes.py
+"classes.base.aliasDict" -> "classes.QRes.qResults" [arrowhead="odiamond", color="orange", arrowtail="none", label="allResults", fontsize=10, fontcolor=orange];
+
+// in environment.py
+"classes.environment.thermalBath" -> "classes.environment.dissipatorObj" [arrowhead="odiamond", color="orange", arrowtail="none", label="__bath", fontsize=10, fontcolor=orange];
+
+
+// indirect compositions
+
+// in QSim.py
+//"classes.QSim._poolMemory" -> "classes.QSim.Simulation" [arrowhead="odiamond", color="red", arrowtail="none", label="", fontsize=10, fontcolor=red];
+
+// in  QRes.py
+//"classes.QRes.qResBlank" -> "classes.QRes.qResults" [arrowhead="odiamond", color="red", arrowtail="none", label="", fontsize=10, fontcolor=red];
+
+// in QSweep.py
+"classes.QSweep.Sweep" -> "classes.QSweep._sweep" [arrowhead="odiamond", color="red", arrowtail="none", label="superSys", fontsize=10, fontcolor=red];
+"classes.QSweep._sweep" -> "classes.QSweep.Sweep" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+
+
+/*
+ * proxy class
+ */
+
+"classes.QSys.qSystem" -> "classes.QSys.QuantumSystem" [arrowhead="none", color="black", arrowtail="none", fontsize=10, fontcolor=red];
+"classes.QSys.compQSystem" -> "classes.QSys.QuantumSystem" [arrowhead="none", color="black", arrowtail="none", fontsize=10, fontcolor=red];
+
+}

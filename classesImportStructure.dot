@@ -1,0 +1,76 @@
+digraph "packages_quanguru" {
+graph [ dpi=300 ];
+rankdir=BT
+charset="utf-8"
+
+/*
+ * Import structure of classes modules, arrowhead points to the imported module from the one importing it.
+ * Classes also imports modules from QuantumToolbox, and I distinguish the classes modules from QuantumToolbox with the
+ * node colours.
+ *
+ * import of QuantumToolbox are omitted here.
+ */
+
+// modules are represented as the nodes of the graph, and the node colour distinguishes classes and QuantumToolbox
+
+// classes modules
+"base" [color="black", label="base", shape="box", style="filled", fillcolor=antiquewhite];
+"baseClasses" [color="black", label="baseClasses", shape="box", style="filled", fillcolor=antiquewhite];
+"QSys" [color="black", label="QSys", shape="box", style="filled", fillcolor=antiquewhite];
+"QSim" [color="black", label="QSim", shape="box", style="filled", fillcolor=antiquewhite];
+"QSweep" [color="black", label="QSweep", shape="box", style="filled", fillcolor=antiquewhite];
+"QRes" [color="black", label="QRes", shape="box", style="filled", fillcolor=antiquewhite];
+"QPro" [color="black", label="QPro", shape="box", style="filled", fillcolor=antiquewhite];
+"QGates" [color="black", label="QGates", shape="box", style="filled", fillcolor=antiquewhite];
+"QDrive" [color="black", label="QDrive", shape="box", style="filled", fillcolor=antiquewhite];
+"environment" [color="black", label="environment", shape="box", style="filled", fillcolor=antiquewhite];
+"modularSweep" [color="black", label="modularSweep", shape="box", style="filled", fillcolor=antiquewhite];
+"couplings" [color="black", label="couplings", shape="box", style="filled", fillcolor=antiquewhite];
+"tempConfig" [color="black", label="tempConfig", shape="box", style="filled", fillcolor=antiquewhite];
+
+// QuantumToolbox modules
+"linearAlgebra" [color="black", label="linearAlgebra", shape="box", style="filled", fillcolor=chartreuse];
+"operators" [color="black", label="operators", shape="box", style="filled", fillcolor=chartreuse];
+"states" [color="black", label="states", shape="box", style="filled", fillcolor=chartreuse];
+"evolution" [color="black", label="evolution", shape="box", style="filled", fillcolor=chartreuse];
+"spinRotations" [color="black", label="spinRotations", shape="box", style="filled", fillcolor=brown1];
+"thermodynamics" [color="black", label="thermodynamics", shape="box", style="filled", fillcolor=brown1];
+
+
+
+// graph edges
+"baseClasses" -> "base" [arrowhead="open", arrowtail="none"];
+"baseClasses" -> "QSim" [arrowhead="open", arrowtail="none"];
+"baseClasses" -> "QRes" [arrowhead="open", arrowtail="none"];
+"baseClasses" -> "tempConfig" [arrowhead="open", arrowtail="none"];
+"QSys" -> "base" [arrowhead="open", arrowtail="none"];
+"QSys" -> "baseClasses" [arrowhead="open", arrowtail="none"];
+"QSys" -> "QPro" [arrowhead="open", arrowtail="none"];
+"QSys" -> "linearAlgebra" [arrowhead="open", arrowtail="none"];
+"QSys" -> "operators" [arrowhead="open", arrowtail="none"];
+"QSys" -> "states" [arrowhead="open", arrowtail="none"];
+"QSim" -> "base" [arrowhead="open", arrowtail="none"];
+"QSim" -> "baseClasses" [arrowhead="open", arrowtail="none"];
+"QSim" -> "QSweep" [arrowhead="open", arrowtail="none"];
+"QSim" -> "modularSweep" [arrowhead="open", arrowtail="none"];
+"QSweep" -> "base" [arrowhead="open", arrowtail="none"];
+"QSweep" -> "baseClasses" [arrowhead="open", arrowtail="none"];
+"QRes" -> "base" [arrowhead="open", arrowtail="none"];
+"QPro" -> "base" [arrowhead="open", arrowtail="none"];
+"QPro" -> "baseClasses" [arrowhead="open", arrowtail="none"];
+"QPro" -> "QSweep" [arrowhead="open", arrowtail="none"];
+"QPro" -> "operators" [arrowhead="open", arrowtail="none"];
+"QPro" -> "evolution" [arrowhead="open", arrowtail="none"];
+"QGates" -> "baseClasses" [arrowhead="open", arrowtail="none"];
+"QGates" -> "QPro" [arrowhead="open", arrowtail="none"];
+"QGates" -> "operators" [arrowhead="open", arrowtail="none"];
+"QGates" -> "evolution" [arrowhead="open", arrowtail="none"];
+"QGates" -> "spinRotations" [arrowhead="open", arrowtail="none"];
+"QDrive" -> "baseClasses" [arrowhead="open", arrowtail="none"];
+"environment" -> "baseClasses" [arrowhead="open", arrowtail="none"];
+"environment" -> "operators" [arrowhead="open", arrowtail="none"];
+"environment" -> "thermodynamics" [arrowhead="open", arrowtail="none"];
+"modularSweep" -> "states" [arrowhead="open", arrowtail="none"];
+"couplings" -> "QSys" [arrowhead="open", arrowtail="none"];
+"couplings" -> "operators" [arrowhead="open", arrowtail="none"];
+}

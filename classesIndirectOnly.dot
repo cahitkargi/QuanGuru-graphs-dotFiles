@@ -1,0 +1,104 @@
+digraph "classes_quanguru" {
+graph [ dpi=300 ];
+rankdir=BT
+charset="utf-8"
+
+/* 
+ * all the classes: gathered with other classes in the same module and (mostly) arranged in the order they appear in the 
+ * module (expect when I switched the order to adjust the .png), this arrangement shows where they are in the inheritance
+ * or where they become part of composition in the inheritance.
+ * The modules are arranged: - first from the top of the inheritance, - then what I think is a more fundamental module.
+ * 
+ * nodes in each module are shown with the same color. Note that I treat QGates as part of QPro
+ */
+
+// QSys.py
+"classes.QSys.genericQSys" [color="black", fontcolor="black", label="genericQSys", shape="box", style="filled", fillcolor="#cbeaf5"];
+"classes.QSys.compQSystem" [color="black", fontcolor="black", label="compQSystem", shape="box", style="filled", fillcolor="#cbeaf5"];
+"classes.QSys.term" [color="black", fontcolor="black", label="term", shape="box", style="filled", fillcolor="#cbeaf5"];
+"classes.QSys.qSystem" [color="black", fontcolor="black", label="qSystem", shape="box", style="filled", fillcolor="#cbeaf5"];
+"classes.QSys.qCoupling" [color="black", fontcolor="black", label="qCoupling", shape="box", style="filled", fillcolor="#cbeaf5"];
+
+// QSim.py
+"classes.QSim.Simulation" [color="black", fontcolor="black", label="Simulation", shape="box", style="filled", fillcolor="#ffc7c7"];
+
+// QPro.py (and QGates)
+"classes.QPro.genericProtocol" [color="black", fontcolor="black", label="genericProtocol", shape="box", style="filled", fillcolor="#e5ffe3"];
+"classes.QPro.qProtocol" [color="black", fontcolor="black", label="qProtocol", shape="box", style="filled", fillcolor="#e5ffe3"];
+"classes.QPro.copyStep" [color="black", fontcolor="black", label="copyStep", shape="box", style="filled", fillcolor="#e5ffe3"];
+"classes.QPro.Gate" [color="black", fontcolor="black", label="Gate", shape="box", style="filled", fillcolor="#e5ffe3"];
+"classes.QPro.Update" [color="black", fontcolor="black", label="Update", shape="box", style="filled", fillcolor="#e5ffe3"];
+
+// QSweep.py
+"classes.QSweep._sweep" [color="black", fontcolor="black", label="_sweep", shape="box", style="filled", fillcolor="#fffaad"];
+"classes.QSweep.Sweep" [color="black", fontcolor="black", label="Sweep", shape="box", style="filled", fillcolor="#fffaad"];
+
+// environment.py
+"classes.environment._genericOpen" [color="black", fontcolor="black", label="_genericOpen", shape="box", style="filled", fillcolor=darkorchid1];
+"classes.environment.dissipatorObj" [color="black", fontcolor="black", label="dissipatorObj", shape="box", style="filled", fillcolor=darkorchid1];
+"classes.environment.thermalBath" [color="black", fontcolor="black", label="thermalBath", shape="box", style="filled", fillcolor=darkorchid1];
+
+// QDrive.py
+"classes.QDrive.genericDrive" [color="black", fontcolor="black", label="genericDrive", shape="box", style="filled", fillcolor=aquamarine4];
+"classes.QDrive.qDrive" [color="black", fontcolor="black", label="qDrive", shape="box", style="filled", fillcolor=aquamarine4];
+"classes.QDrive.pulse" [color="black", fontcolor="black", label="pulse", shape="box", style="filled", fillcolor=aquamarine4];
+
+
+// indirect compositions
+
+// in QSys.py
+"classes.QSys.compQSystem" -> "classes.QSys.compQSystem" [arrowhead="none", color="red", arrowtail="odiamond", dir=both, label="subSys", fontsize=10, fontcolor=red];
+"classes.QSys.qSystem" -> "classes.QSys.compQSystem" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+"classes.QSys.qCoupling" -> "classes.QSys.compQSystem" [arrowhead="odiamond", color="red", arrowtail="none", label="qCouplings", fontsize=10, fontcolor=red];
+"classes.QSys.compQSystem" -> "classes.QSys.compQSystem" [arrowhead="odiamond", color="red", arrowtail="none", label="_paramBound", fontsize=10, fontcolor=red];
+"classes.QSys.compQSystem" -> "classes.QSys.qSystem" [arrowhead="odiamond", color="red", arrowtail="none", label="_paramBound", fontsize=10, fontcolor=red];
+"classes.QSys.compQSystem" -> "classes.QSys.qCoupling" [arrowhead="odiamond", color="red", arrowtail="none", label="_paramBound", fontsize=10, fontcolor=red];
+"classes.QSys.compQSystem" -> "classes.QSys.qSystem" [arrowhead="odiamond", color="red", arrowtail="none", label="superSys", fontsize=10, fontcolor=red];
+"classes.QSys.qSystem" -> "classes.QSys.qCoupling" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+
+// in QSim.py
+// note that these functionalities are implemented in timeBase with _bound method, and the _bound method is called in QSim
+"classes.QSim.Simulation" -> "classes.QSim.Simulation" [arrowhead="none", color="red", arrowtail="odiamond", dir=both, label="__bound", fontsize=10, fontcolor=red];
+"classes.QSim.Simulation" -> "classes.QSim.Simulation" [arrowhead="odiamond", color="red", arrowtail="none", label="_paramBound", fontsize=10, fontcolor=red];
+"classes.QPro.genericProtocol" -> "classes.QSim.Simulation" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+"classes.QSys.genericQSys" -> "classes.QSim.Simulation" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+
+// in QPro.py
+"classes.QPro.Update" -> "classes.QPro.genericProtocol" [arrowhead="odiamond", color="red", arrowtail="none", label="updates", fontsize=10, fontcolor=red];
+"classes.environment.dissipatorObj" -> "classes.QPro.genericProtocol" [arrowhead="odiamond", color="red", arrowtail="none", label="_dissipator", fontsize=10, fontcolor=red];
+"classes.QPro.genericProtocol" -> "classes.QPro.copyStep" [arrowhead="odiamond", color="red", arrowtail="none", label="superSys", fontsize=10, fontcolor=red];
+"classes.QSys.genericQSys" -> "classes.QPro.genericProtocol" [arrowhead="odiamond", color="red", arrowtail="none", label="superSys", fontsize=10, fontcolor=red];
+"classes.QPro.genericProtocol" -> "classes.QSys.genericQSys" [arrowhead="odiamond", color="red", arrowtail="none", label="_paramBound", fontsize=10, fontcolor=red];
+"classes.QPro.genericProtocol" -> "classes.QPro.qProtocol" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+"classes.QPro.copyStep" -> "classes.QPro.qProtocol" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+"classes.QSys.genericQSys" -> "classes.QPro.Gate" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+"classes.QPro.Gate" -> "classes.QSys.genericQSys" [arrowhead="odiamond", color="red", arrowtail="none", label="_paramBound", fontsize=10, fontcolor=red];
+"classes.QSys.genericQSys" -> "classes.QPro.Update" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+"classes.QSys.term" -> "classes.QPro.Update" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+"classes.QSys.qCoupling" -> "classes.QPro.Update" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+"classes.QPro.genericProtocol" -> "classes.QPro.Update" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+"classes.QSim.Simulation" -> "classes.QPro.Update" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+"classes.environment._genericOpen" -> "classes.QPro.Update" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+"classes.QDrive.genericDrive" -> "classes.QPro.Update" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+
+// in QSweep.py
+"classes.QSweep.Sweep" -> "classes.QSweep._sweep" [arrowhead="odiamond", color="red", arrowtail="none", label="superSys", fontsize=10, fontcolor=red];
+"classes.QSweep._sweep" -> "classes.QSweep.Sweep" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+"classes.QSys.genericQSys" -> "classes.QSweep._sweep" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+"classes.QSys.term" -> "classes.QSweep._sweep" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+"classes.QSys.qCoupling" -> "classes.QSweep._sweep" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+"classes.QPro.genericProtocol" -> "classes.QSweep._sweep" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+"classes.QSim.Simulation" -> "classes.QSweep._sweep" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+"classes.environment._genericOpen" -> "classes.QSweep._sweep" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+"classes.QDrive.genericDrive" -> "classes.QSweep._sweep" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+
+// in environment.py
+"classes.QSys.genericQSys" -> "classes.environment.dissipatorObj" [arrowhead="odiamond", color="red", arrowtail="none", label="superSys", fontsize=10, fontcolor=red];
+"classes.environment.dissipatorObj" -> "classes.QSys.genericQSys" [arrowhead="odiamond", color="red", arrowtail="none", label="_paramBound", fontsize=10, fontcolor=red];
+"classes.environment.dissipatorObj" -> "classes.environment.thermalBath" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+"classes.environment.dissipatorObj" -> "classes.environment.thermalBath" [arrowhead="odiamond", color="red", arrowtail="none", label="_paramBound", fontsize=10, fontcolor=red];
+
+// in QDrive.py
+"classes.QDrive.pulse" -> "classes.QDrive.qDrive" [arrowhead="odiamond", color="red", arrowtail="none", label="subSys", fontsize=10, fontcolor=red];
+
+}

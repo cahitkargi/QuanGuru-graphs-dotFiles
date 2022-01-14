@@ -1,0 +1,50 @@
+digraph "packages_quanguru" {
+graph [ dpi=300 ];
+rankdir=BT
+charset="utf-8"
+
+/*
+ * Import structure of QuantumToolbox modules, arrowhead points to the imported module from the one importing it.
+ * QuantumToolbox does not import from classes.
+ */
+
+// modules are represented as the nodes of the graph, and the node colour is just my classification
+
+// core modules (with node colour chartreuse)
+"linearAlgebra" [color="black", label="linearAlgebra", shape="box", style="filled", fillcolor=chartreuse];
+"operators" [color="black", label="operators", shape="box", style="filled", fillcolor=chartreuse];
+"states" [color="black", label="states", shape="box", style="filled", fillcolor=chartreuse];
+"functions" [color="black", label="functions", shape="box", style="filled", fillcolor=chartreuse];
+"evolution" [color="black", label="evolution", shape="box", style="filled", fillcolor=chartreuse];
+// modules that will probably needed by most people (with node colour brown1)
+"basicGates" [color="black", label="basicGates", shape="box", style="filled", fillcolor=brown1];
+"spinRotations" [color="black", label="spinRotations", shape="box", style="filled", fillcolor=brown1];
+"quasiProbabilities" [color="black", label="quasiProbabilities", shape="box", style="filled", fillcolor=brown1];
+"thermodynamics" [color="black", label="thermodynamics", shape="box", style="filled", fillcolor=brown1];
+"Hamiltonians" [color="black", label="Hamiltonians", shape="box", style="filled", fillcolor=brown1];
+// very niche modules (with node colour dodgerblue)
+"eigenVecVal" [color="black", label="eigenVecVal", shape="box", style="filled", fillcolor=dodgerblue];
+"rmtDistributions" [color="black", label="rmtDistributions", shape="box", style="filled", fillcolor=dodgerblue];
+"IPR" [color="black", label="IPR", shape="box", style="filled", fillcolor=dodgerblue];
+// internally used modules (with node colour cornsilk)
+"_helpers" [color="black", label="_helpers", shape="box", style="filled", fillcolor=cornsilk];
+"customTypes" [color="black", label="customTypes", shape="box", style="filled", fillcolor=cornsilk];
+
+// graph edges
+"Hamiltonians" -> "operators" [arrowhead="open", arrowtail="none"];
+"IPR" -> "functions" [arrowhead="open", arrowtail="none"];
+"eigenVecVal" -> "functions" [arrowhead="open", arrowtail="none"];
+"eigenVecVal" -> "states" [arrowhead="open", arrowtail="none"];
+"evolution" -> "functions" [arrowhead="open", arrowtail="none"];
+"evolution" -> "linearAlgebra" [arrowhead="open", arrowtail="none"];
+"evolution" -> "states" [arrowhead="open", arrowtail="none"];
+"functions" -> "linearAlgebra" [arrowhead="open", arrowtail="none"];
+"functions" -> "operators" [arrowhead="open", arrowtail="none"];
+"functions" -> "states" [arrowhead="open", arrowtail="none"];
+"operators" -> "linearAlgebra" [arrowhead="open", arrowtail="none"];
+"quasiProbabilities" -> "states" [arrowhead="open", arrowtail="none"];
+"spinRotations" -> "evolution" [arrowhead="open", arrowtail="none"];
+"spinRotations" -> "operators" [arrowhead="open", arrowtail="none"];
+"states" -> "linearAlgebra" [arrowhead="open", arrowtail="none"];
+"thermodynamics" -> "states" [arrowhead="open", arrowtail="none"];
+}
